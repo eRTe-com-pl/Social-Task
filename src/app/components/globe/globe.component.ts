@@ -16,25 +16,29 @@ export class GlobeComponent implements AfterViewInit {
 	private scene    = new THREE.Scene();
 	private camera   = new THREE.PerspectiveCamera(75, 1, 0.001, 100);
 	private renderer?:THREE.WebGLRenderer;
-	private cube?:THREE.Mesh;
-
-	constructor() { }
+	private sphere?:THREE.Mesh;
 
 	private createScene() {
-		this.camera.position.z = 5;
-		const geometry = new THREE.BoxGeometry();
-		const material = new THREE.MeshBasicMaterial({
-			color: 0x00ff00,
-			wireframe: true,
+		this.camera.position.z = 2;
+		const geometry = new THREE.SphereGeometry(1, 48, 48);
+		const material = new THREE.MeshStandardMaterial({
+			map: new THREE.TextureLoader().load('/assets/earthmap.jpg'),
+			// bumpMap: new THREE.TextureLoader().load('/assets/earthbump1k.jpg'),
+			// bumpScale: 0.05
 		});
-		this.cube = new THREE.Mesh(geometry, material);
-		this.scene.add(this.cube);
+		this.sphere = new THREE.Mesh(geometry, material);
+		this.scene.add(this.sphere);
+
+		const pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+		pointLight.position.set( 10, 10, 10 );
+		this.scene.add( pointLight );
+
 	}
 
 	private animate() {
-		if (!this.cube) return;
-		this.cube.rotation.x += 0.05;
-		this.cube.rotation.y += 0.05;
+		if (!this.sphere) return;
+		// this.cube.rotation.x += 0.01;
+		this.sphere.rotation.y += 0.01;
 	}
 
 	private render() {
@@ -66,6 +70,10 @@ export class GlobeComponent implements AfterViewInit {
 		if(!this.canvas) return;
 		this.canvas.nativeElement.width += 50;
 		this.canvas.nativeElement.height += 50;
+	}
+
+	onMouseMove(e:MouseEvent) {
+		console.log(e.clientX, e.clientY, e.buttons);
 	}
 
 }
