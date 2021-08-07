@@ -1,3 +1,4 @@
-<p>globe works!</p>
-<canvas #canvas width="400px" height="400px" (mousemove)="onMouseMove($event)"></canvas>
-<button (click)="resizeClick()">Resize</button>
+<canvas #canvas width="600px" height="600px"
+    (mousemove)="onMouseMove($event)"
+    (touchstart)="onTouchBegin($event)"
+    (touchmove)="onTouchMove($event)"></canvas>

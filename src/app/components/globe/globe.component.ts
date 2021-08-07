@@ -1,6 +1,14 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import * as THREE from 'three'
 
+const clamp = (x:number, min:number, max:number) => Math.min(Math.max(x, min), max);
+
+const lerp = (v1:number, v2:number, a:number) => {
+	a = a < 0 ? 0 : a;
+	a = a > 1 ? 1 : a;
+	return v1 + (v2 - v1) * a;
+}
+
 @Component({
 	selector: 'app-globe',
 	templateUrl: './globe.component.html',
@@ -37,8 +45,6 @@ export class GlobeComponent implements AfterViewInit {
 
 	private animate() {
 		if (!this.sphere) return;
-		// this.cube.rotation.x += 0.01;
-		this.sphere.rotation.y += 0.01;
 	}
 
 	private render() {
@@ -65,15 +71,43 @@ export class GlobeComponent implements AfterViewInit {
 		this.render();
 	}
 
-	resizeClick() {
-		console.log('Resize clicked');
-		if(!this.canvas) return;
-		this.canvas.nativeElement.width += 50;
-		this.canvas.nativeElement.height += 50;
+	private rotate(dx:number, dy:number) {
+		if (!this.sphere) return;
+		let y = this.sphere.rotation.y + dx * 0.005;
+		let x = clamp(this.sphere.rotation.x + dy * 0.004, -0.6, 0.6);
+		// TODO: better interpolation
+		this.sphere.rotation.x = lerp(x, this.sphere.rotation.x, 0.5); 
+		this.sphere.rotation.y = lerp(y, this.sphere.rotation.y, 0.5);
 	}
 
+	private mouseX = 0;
+	private mouseY = 0;
 	onMouseMove(e:MouseEvent) {
-		console.log(e.clientX, e.clientY, e.buttons);
+		if (e.buttons == 1) {
+			this.rotate(e.clientX - this.mouseX, e.clientY - this.mouseY);
+		}
+		this.mouseX = e.clientX;
+		this.mouseY = e.clientY;
+	}
+
+	private touchX = 0;
+	private touchY = 0;
+	onTouchBegin(e:TouchEvent) {
+		e.preventDefault();
+		if (e.targetTouches.length == 1) {
+			this.touchX = e.targetTouches[0].clientX;
+			this.touchY = e.targetTouches[0].clientY;
+		}
+	}
+
+	onTouchMove(e:TouchEvent) {
+		e.preventDefault();
+		if (e.targetTouches.length == 1) {
+			let t = e.targetTouches[0]
+			this.rotate(t.clientX - this.touchX, t.clientY - this.touchY);
+			this.touchX = t.clientX;
+			this.touchY = t.clientY;
+		}
 	}
 
 }
