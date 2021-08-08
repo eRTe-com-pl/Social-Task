@@ -1,13 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import * as THREE from 'three'
 
+const PI_HALF = Math.PI / 2;
 const clamp = (x:number, min:number, max:number) => Math.min(Math.max(x, min), max);
-
-const lerp = (v1:number, v2:number, a:number) => {
-	a = a < 0 ? 0 : a;
-	a = a > 1 ? 1 : a;
-	return v1 + (v2 - v1) * a;
-}
 
 @Component({
 	selector: 'app-globe',
@@ -21,10 +16,15 @@ export class GlobeComponent implements AfterViewInit {
 	private width = 0;
 	private height = 0;
 
+	private clock = new THREE.Clock();
 	private scene    = new THREE.Scene();
 	private camera   = new THREE.PerspectiveCamera(75, 1, 0.001, 100);
 	private renderer?:THREE.WebGLRenderer;
 	private sphere?:THREE.Mesh;
+
+	private targetRotation = new THREE.Vector3();
+	private duration = 5;
+	public speed = 0.04;
 
 	private createScene() {
 		this.camera.position.z = 2;
@@ -45,6 +45,9 @@ export class GlobeComponent implements AfterViewInit {
 
 	private animate() {
 		if (!this.sphere) return;
+		let rot = this.sphere.rotation.toVector3();
+		rot.lerp(this.targetRotation, this.clock.getDelta() * this.duration);
+		this.sphere.rotation.setFromVector3(rot);
 	}
 
 	private render() {
@@ -73,11 +76,8 @@ export class GlobeComponent implements AfterViewInit {
 
 	private rotate(dx:number, dy:number) {
 		if (!this.sphere) return;
-		let y = this.sphere.rotation.y + dx * 0.005;
-		let x = clamp(this.sphere.rotation.x + dy * 0.004, -0.6, 0.6);
-		// TODO: better interpolation
-		this.sphere.rotation.x = lerp(x, this.sphere.rotation.x, 0.5); 
-		this.sphere.rotation.y = lerp(y, this.sphere.rotation.y, 0.5);
+		this.targetRotation.x = clamp(this.sphere.rotation.x + dy * this.speed * 0.8, -PI_HALF, PI_HALF);
+		this.targetRotation.y = this.sphere.rotation.y + dx * this.speed;
 	}
 
 	private mouseX = 0;
