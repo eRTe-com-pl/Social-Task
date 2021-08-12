@@ -1,57 +1,86 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as THREE from 'three'
+import Atmosphere from './Atmosphere';
+import Earth from './Earth';
 
 const PI_HALF = Math.PI / 2;
 const clamp = (x:number, min:number, max:number) => Math.min(Math.max(x, min), max);
 
+export interface GlobeParameters {
+
+	panSpeed:number;
+	panDuration:number,
+
+	zoomSpeed:number,
+	zoomDuration:number,
+	zoomMin:number,
+	zoomMax:number,
+
+	earthSize:number,
+	earthTint:string,
+	earthAtmosphereRadius:number,
+	earthAtmosphereDecay:number,
+	earthAtmosphereColor:string,
+
+	atmosphereSize:number,
+	atmosphereRadius:number,
+	atmosphereDecay:number,
+	atmosphereColor:string,
+}
+
 @Component({
-	selector: 'app-globe',
+	selector: 'globe',
 	templateUrl: './globe.component.html',
 	styleUrls: ['./globe.component.scss']
 })
 export class GlobeComponent implements AfterViewInit {
+
+	@Input() public params:GlobeParameters = {
+		panSpeed: 0.04,
+		panDuration: 5,
+		zoomSpeed: 0.0007,
+		zoomDuration: 0.4,
+		zoomMin: 1.1,
+		zoomMax: 1.8,
+		earthSize: 1.0,
+		earthTint: '#ffffff',
+		earthAtmosphereRadius: 1.31,
+		earthAtmosphereDecay: 3.0,
+		earthAtmosphereColor: '#0000FF',
+		atmosphereSize: 1.1,
+		atmosphereRadius: 0.8,
+		atmosphereDecay: 12.0,
+		atmosphereColor: '#0000FF',
+	};
 
 	@ViewChild('canvas', {static: false})
 	private canvas?: ElementRef<HTMLCanvasElement>;
 	private width = 0;
 	private height = 0;
 
-	private clock = new THREE.Clock();
-	private scene    = new THREE.Scene();
-	private camera   = new THREE.PerspectiveCamera(75, 1, 0.001, 100);
+	private clock  = new THREE.Clock();
+	private scene  = new THREE.Scene();
+	private camera = new THREE.PerspectiveCamera(75, 1, 0.001, 10000);
 	private renderer?:THREE.WebGLRenderer;
-	private sphere?:THREE.Mesh;
-
+	
 	private targetRotation = new THREE.Vector3();
-	private duration = 5;
-	public speed = 0.04;
+	private targetZoom = new THREE.Vector3(0, 0, 1.8);
 
-	private createScene() {
-		this.camera.position.z = 2;
-		const geometry = new THREE.SphereGeometry(1, 48, 48);
-		const material = new THREE.MeshStandardMaterial({
-			map: new THREE.TextureLoader().load('/assets/earthmap.jpg'),
-			// bumpMap: new THREE.TextureLoader().load('/assets/earthbump1k.jpg'),
-			// bumpScale: 0.05
-		});
-		this.sphere = new THREE.Mesh(geometry, material);
-		this.scene.add(this.sphere);
 
-		const pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
-		pointLight.position.set( 10, 10, 10 );
-		this.scene.add( pointLight );
+	public earth:Earth;
+	public atmosphere:Atmosphere;
 
-	}
 
-	private animate() {
-		if (!this.sphere) return;
-		let rot = this.sphere.rotation.toVector3();
-		rot.lerp(this.targetRotation, this.clock.getDelta() * this.duration);
-		this.sphere.rotation.setFromVector3(rot);
+	constructor() {
+		this.earth = new Earth(this.scene);
+		this.atmosphere = new Atmosphere(this.scene);
+		this.targetZoom.z = this.params.zoomMax;
+		this.camera.position.z = this.targetZoom.z;
 	}
 
 	private render() {
 		requestAnimationFrame(this.render.bind(this));
+
 		if (!this.renderer || !this.canvas) return;
 		if (this.width != this.canvas.nativeElement.width ||
 			this.height != this.canvas.nativeElement.height)  {
@@ -61,33 +90,58 @@ export class GlobeComponent implements AfterViewInit {
 			this.camera.updateProjectionMatrix();
 			this.renderer.setSize(this.width, this.height);
 		}
-		this.animate();
+		
+		let rot = this.scene.rotation.toVector3();
+		rot.lerp(this.targetRotation, this.clock.getDelta() * this.params.panDuration);
+		this.scene.rotation.setFromVector3(rot);
+
+		this.camera.position.lerp(this.targetZoom, this.params.zoomDuration);
+
+		this.earth.mesh.scale.setScalar(this.params.earthSize);
+		this.earth.uniforms.tint.value = new THREE.Color(this.params.earthTint);
+		this.earth.uniforms.atmosphereRadius.value = this.params.earthAtmosphereRadius;
+		this.earth.uniforms.atmosphereDecay.value = this.params.earthAtmosphereDecay;
+		this.earth.uniforms.atmosphereColor.value = new THREE.Color(this.params.earthAtmosphereColor);
+
+		this.atmosphere.mesh.scale.setScalar(this.params.atmosphereSize);
+		this.atmosphere.uniforms.atmosphereRadius.value = this.params.atmosphereRadius;
+		this.atmosphere.uniforms.atmosphereDecay.value = this.params.atmosphereDecay;
+		this.atmosphere.uniforms.atmosphereColor.value = new THREE.Color(this.params.atmosphereColor);
+
 		this.renderer.render(this.scene, this.camera);
 	}
 
 	ngAfterViewInit(): void {
 		this.renderer = new THREE.WebGLRenderer({
 			canvas: this.canvas?.nativeElement,
-			alpha: true
+			alpha: true,
+			antialias: true,
 		});
-		this.createScene();
 		this.render();
 	}
 
-	private rotate(dx:number, dy:number) {
-		if (!this.sphere) return;
-		this.targetRotation.x = clamp(this.sphere.rotation.x + dy * this.speed * 0.8, -PI_HALF, PI_HALF);
-		this.targetRotation.y = this.sphere.rotation.y + dx * this.speed;
+	private handlePan(dx:number, dy:number) {
+		let s = this.params.panSpeed * this.targetZoom.z / this.params.zoomMax;
+		this.targetRotation.x = clamp(this.scene.rotation.x + dy * s * 0.8, -PI_HALF, PI_HALF);
+		this.targetRotation.y = this.scene.rotation.y + dx * s;
+	}
+
+	private handleZoom(dx:number) {
+		this.targetZoom.z = clamp(this.targetZoom.z + dx * this.params.zoomSpeed, this.params.zoomMin, this.params.zoomMax);
 	}
 
 	private mouseX = 0;
 	private mouseY = 0;
 	onMouseMove(e:MouseEvent) {
 		if (e.buttons == 1) {
-			this.rotate(e.clientX - this.mouseX, e.clientY - this.mouseY);
+			this.handlePan(e.clientX - this.mouseX, e.clientY - this.mouseY);
 		}
 		this.mouseX = e.clientX;
 		this.mouseY = e.clientY;
+	}
+
+	onMouseWheel(e:any) {
+		this.handleZoom(e.deltaY);
 	}
 
 	private touchX = 0;
@@ -104,7 +158,7 @@ export class GlobeComponent implements AfterViewInit {
 		e.preventDefault();
 		if (e.targetTouches.length == 1) {
 			let t = e.targetTouches[0]
-			this.rotate(t.clientX - this.touchX, t.clientY - this.touchY);
+			this.handlePan(t.clientX - this.touchX, t.clientY - this.touchY);
 			this.touchX = t.clientX;
 			this.touchY = t.clientY;
 		}
