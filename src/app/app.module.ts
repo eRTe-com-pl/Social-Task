@@ -8,6 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 
+import { FormsModule } from "@angular/forms";
+import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFireAuth, AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { environment } from "../environments/environment";
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +25,10 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
