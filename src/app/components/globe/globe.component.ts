@@ -1,20 +1,12 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import * as THREE from 'three'
+import { OrbitalControl, OrbitalControlParams } from './OrbitalControl';
 import Atmosphere from './Atmosphere';
+import * as THREE from 'three'
 import Earth from './Earth';
-
-const PI_HALF = Math.PI / 2;
-const clamp = (x:number, min:number, max:number) => Math.min(Math.max(x, min), max);
 
 export interface GlobeParameters {
 
-	panSpeed:number;
-	panDuration:number,
-
-	zoomSpeed:number,
-	zoomDuration:number,
-	zoomMin:number,
-	zoomMax:number,
+	control:OrbitalControlParams,
 
 	earthSize:number,
 	earthTint:string,
@@ -28,6 +20,26 @@ export interface GlobeParameters {
 	atmosphereColor:string,
 }
 
+export const DEFAULT_GLOBE_PARAMS:GlobeParameters = {
+	control: {
+		panSpeed: 0.04,
+		panDuration: 5,
+		zoomSpeed: 0.0007,
+		zoomDuration: 0.4,
+		zoomMin: 1.1,
+		zoomMax: 1.8,
+	},
+	earthSize: 1.0,
+	earthTint: '#ffffff',
+	earthAtmosphereRadius: 1.31,
+	earthAtmosphereDecay: 3.0,
+	earthAtmosphereColor: '#0000FF',
+	atmosphereSize: 1.1,
+	atmosphereRadius: 0.8,
+	atmosphereDecay: 12.0,
+	atmosphereColor: '#0000FF',
+};
+
 @Component({
 	selector: 'globe',
 	templateUrl: './globe.component.html',
@@ -35,23 +47,7 @@ export interface GlobeParameters {
 })
 export class GlobeComponent implements AfterViewInit {
 
-	@Input() public params:GlobeParameters = {
-		panSpeed: 0.04,
-		panDuration: 5,
-		zoomSpeed: 0.0007,
-		zoomDuration: 0.4,
-		zoomMin: 1.1,
-		zoomMax: 1.8,
-		earthSize: 1.0,
-		earthTint: '#ffffff',
-		earthAtmosphereRadius: 1.31,
-		earthAtmosphereDecay: 3.0,
-		earthAtmosphereColor: '#0000FF',
-		atmosphereSize: 1.1,
-		atmosphereRadius: 0.8,
-		atmosphereDecay: 12.0,
-		atmosphereColor: '#0000FF',
-	};
+	@Input() public params:GlobeParameters = DEFAULT_GLOBE_PARAMS;
 
 	@ViewChild('canvas', {static: false})
 	private canvas?: ElementRef<HTMLCanvasElement>;
@@ -62,26 +58,32 @@ export class GlobeComponent implements AfterViewInit {
 	private scene  = new THREE.Scene();
 	private camera = new THREE.PerspectiveCamera(75, 1, 0.001, 10000);
 	private renderer?:THREE.WebGLRenderer;
-	
-	private targetRotation = new THREE.Vector3();
-	private targetZoom = new THREE.Vector3(0, 0, 1.8);
 
-
-	public earth:Earth;
+	public control:OrbitalControl;
 	public atmosphere:Atmosphere;
-
+	public earth:Earth;
 
 	constructor() {
 		this.earth = new Earth(this.scene);
 		this.atmosphere = new Atmosphere(this.scene);
-		this.targetZoom.z = this.params.zoomMax;
-		this.camera.position.z = this.targetZoom.z;
+		this.control = new OrbitalControl(this.camera, this.scene, this.params.control, this.clock);
 	}
+
+	// Example of implementation
+	// ngOnInit() {
+	// 	let points = this.globeService.getAllPoints()
+	// 	this.render(points);
+	// 	this.globeService.subscrite(point => {
+	// 		points[point.id] = point;
+	// 		rerender(point);
+	// 	})
+	// }
 
 	private render() {
 		requestAnimationFrame(this.render.bind(this));
 
 		if (!this.renderer || !this.canvas) return;
+
 		if (this.width != this.canvas.nativeElement.width ||
 			this.height != this.canvas.nativeElement.height)  {
 			this.width = this.canvas.nativeElement.width;
@@ -90,12 +92,8 @@ export class GlobeComponent implements AfterViewInit {
 			this.camera.updateProjectionMatrix();
 			this.renderer.setSize(this.width, this.height);
 		}
-		
-		let rot = this.scene.rotation.toVector3();
-		rot.lerp(this.targetRotation, this.clock.getDelta() * this.params.panDuration);
-		this.scene.rotation.setFromVector3(rot);
 
-		this.camera.position.lerp(this.targetZoom, this.params.zoomDuration);
+		this.control.animate();
 
 		this.earth.mesh.scale.setScalar(this.params.earthSize);
 		this.earth.uniforms.tint.value = new THREE.Color(this.params.earthTint);
@@ -118,50 +116,6 @@ export class GlobeComponent implements AfterViewInit {
 			antialias: true,
 		});
 		this.render();
-	}
-
-	private handlePan(dx:number, dy:number) {
-		let s = this.params.panSpeed * this.targetZoom.z / this.params.zoomMax;
-		this.targetRotation.x = clamp(this.scene.rotation.x + dy * s * 0.8, -PI_HALF, PI_HALF);
-		this.targetRotation.y = this.scene.rotation.y + dx * s;
-	}
-
-	private handleZoom(dx:number) {
-		this.targetZoom.z = clamp(this.targetZoom.z + dx * this.params.zoomSpeed, this.params.zoomMin, this.params.zoomMax);
-	}
-
-	private mouseX = 0;
-	private mouseY = 0;
-	onMouseMove(e:MouseEvent) {
-		if (e.buttons == 1) {
-			this.handlePan(e.clientX - this.mouseX, e.clientY - this.mouseY);
-		}
-		this.mouseX = e.clientX;
-		this.mouseY = e.clientY;
-	}
-
-	onMouseWheel(e:any) {
-		this.handleZoom(e.deltaY);
-	}
-
-	private touchX = 0;
-	private touchY = 0;
-	onTouchBegin(e:TouchEvent) {
-		e.preventDefault();
-		if (e.targetTouches.length == 1) {
-			this.touchX = e.targetTouches[0].clientX;
-			this.touchY = e.targetTouches[0].clientY;
-		}
-	}
-
-	onTouchMove(e:TouchEvent) {
-		e.preventDefault();
-		if (e.targetTouches.length == 1) {
-			let t = e.targetTouches[0]
-			this.handlePan(t.clientX - this.touchX, t.clientY - this.touchY);
-			this.touchX = t.clientX;
-			this.touchY = t.clientY;
-		}
 	}
 
 }

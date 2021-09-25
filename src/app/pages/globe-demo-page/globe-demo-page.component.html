@@ -7,13 +7,13 @@
 
 	<div class="params">
 		<form (ngSubmit)="doDump()">
-			Pan Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.panSpeed" name="panSpeed" step="0.001"><br>
-			Pan Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.panDuration" name="panDuration" step="0.5"><br>
+			Pan Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control" name="panSpeed" step="0.001"><br>
+			Pan Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.panDuration" name="panDuration" step="0.5"><br>
 			<hr>
-			Zoom Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.zoomSpeed" name="zoomSpeed" step="0.00001"><br>
-			Zoom Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.zoomDuration" name="zoomDuration" step="0.1"><br>
-			Zoom Min: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.zoomMin" name="zoomMin" step="0.01"><br>
-			Zoom Max: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.zoomMax" name="zoomMax" step="0.01"><br>
+			Zoom Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomSpeed" name="zoomSpeed" step="0.00001"><br>
+			Zoom Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomDuration" name="zoomDuration" step="0.1"><br>
+			Zoom Min: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomMin" name="zoomMin" step="0.01"><br>
+			Zoom Max: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomMax" name="zoomMax" step="0.01"><br>
 			<hr>
 			Earth Size: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthSize" name="earthSize" step="0.01"><br>
 			Earth Tint: <input type="color" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthTint" name="earthTint"><br>
@@ -29,8 +29,6 @@
 		</form>
 	</div>
 
-	<pre class="dump">
-		{{this.dump}}
-	</pre>
+	<pre class="dump">{{this.dump}}</pre>
 
 </div>

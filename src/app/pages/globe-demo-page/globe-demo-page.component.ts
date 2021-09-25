@@ -13,21 +13,23 @@ export class GlobeDemoPageComponent {
 
 	constructor() {
 		this.params = {
-			panSpeed: 0.04,
-			panDuration: 5,
-			zoomSpeed: 0.0007,
-			zoomDuration: 0.4,
-			zoomMin: 1.1,
-			zoomMax: 1.8,
+			control: {
+				panSpeed: 0.04,
+				panDuration: 5,
+				zoomSpeed: 0.0007,
+				zoomDuration: 0.4,
+				zoomMin: 1.1,
+				zoomMax: 1.8,
+			},
 			earthSize: 1.0,
 			earthTint: '#ffffff',
-			earthAtmosphereRadius: 1.31,
-			earthAtmosphereDecay: 3.0,
-			earthAtmosphereColor: '#0000FF',
+			earthAtmosphereRadius: 1.5,
+			earthAtmosphereDecay: 5.4,
+			earthAtmosphereColor: '#587cfd',
 			atmosphereSize: 1.4,
 			atmosphereRadius: 0.8,
 			atmosphereDecay: 12.0,
-			atmosphereColor: '#0000FF',
+			atmosphereColor: '#5c6fff',
 		}
 		this.doDump();
 	}
