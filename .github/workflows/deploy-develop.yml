@@ -38,4 +38,9 @@ jobs:
           name: dist
           path: dist
       - name: Deploy
-        run: echo "TODO"
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: develop
+          projectId: social-tasks-48cc0
