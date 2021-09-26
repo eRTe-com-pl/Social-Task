@@ -1,0 +1,34 @@
+
+<div class="container">
+
+	<div class="globe-container">
+		<globe [params]="this.params"></globe>
+	</div>
+
+	<div class="params">
+		<form (ngSubmit)="doDump()">
+			Pan Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control" name="panSpeed" step="0.001"><br>
+			Pan Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.panDuration" name="panDuration" step="0.5"><br>
+			<hr>
+			Zoom Speed: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomSpeed" name="zoomSpeed" step="0.00001"><br>
+			Zoom Duration: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomDuration" name="zoomDuration" step="0.1"><br>
+			Zoom Min: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomMin" name="zoomMin" step="0.01"><br>
+			Zoom Max: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.control.zoomMax" name="zoomMax" step="0.01"><br>
+			<hr>
+			Earth Size: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthSize" name="earthSize" step="0.01"><br>
+			Earth Tint: <input type="color" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthTint" name="earthTint"><br>
+			Earth Atmosphere Radius: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthAtmosphereRadius" name="earthAtmosphereRadius" step="0.01"><br>
+			Earth Atmosphere Decay: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthAtmosphereDecay" name="earthAtmosphereDecay" step="0.01"><br>
+			Earth Atmosphere Color: <input type="color" (ngModelChange)="doDump()" [(ngModel)]="this.params.earthAtmosphereColor" name="earthAtmosphereColor"><br>
+			<hr>
+			Atmosphere Size: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.atmosphereSize" name="atmosphereSize" step="0.01"><br>
+			Atmosphere Radius: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.atmosphereRadius" name="atmosphereRadius" step="0.01"><br>
+			Atmosphere Decay: <input type="number" (ngModelChange)="doDump()" [(ngModel)]="this.params.atmosphereDecay" name="atmosphereDecay" step="0.5"><br>
+			Atmosphere Color: <input type="color" (ngModelChange)="doDump()" [(ngModel)]="this.params.atmosphereColor" name="atmosphereColor"><br>
+			<button type="submit">Dump</button>
+		</form>
+	</div>
+
+	<pre class="dump">{{this.dump}}</pre>
+
+</div>
