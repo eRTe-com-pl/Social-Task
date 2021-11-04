@@ -15,6 +15,9 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { GlobeComponent } from './components/globe/globe.component';
 import { GlobeDemoPageComponent } from './pages/globe-demo-page/globe-demo-page.component';
 
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+
+const config: SocketIoConfig = {url: environment.ws_url, options:{}}
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +33,8 @@ import { GlobeDemoPageComponent } from './pages/globe-demo-page/globe-demo-page.
     FormsModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]

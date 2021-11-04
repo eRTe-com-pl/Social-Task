@@ -12,16 +12,19 @@ app.use(express.static(path.join(__dirname, "dist/Social-Task")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist/Social-Task/index.html"));
 });
-
 const server = http.createServer(app);
-
 const io = socketIO(server);
 
 let numberOfOnlineUsers = 0;
+// const tasks = [
+//   { id: 1, name: "task1" },
+//   { id: 2, name: "task2" },
+// ];
+
 io.on("connection", (socket) => {
   console.log("New user connected");
-  numberOfOnlineUsers++;
-  io.emit("numberOfOnlineUsers", numberOfOnlineUsers);
+  // numberOfOnlineUsers++;
+  // io.emit("numberOfOnlineUsers", numberOfOnlineUsers);
 
   socket.on("disconnect", () => {
     console.log("User dissconnected");
