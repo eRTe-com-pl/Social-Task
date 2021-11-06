@@ -14,6 +14,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { GlobeComponent } from './components/globe/globe.component';
 import { GlobeDemoPageComponent } from './pages/globe-demo-page/globe-demo-page.component';
+import { TaskListComponent } from './pages/task-list/task-list.component';
 
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 
@@ -25,7 +26,8 @@ const config: SocketIoConfig = {url: environment.ws_url, options:{}}
     LoginPageComponent,
     SignupPageComponent,
     GlobeComponent,
-    GlobeDemoPageComponent
+    GlobeDemoPageComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,

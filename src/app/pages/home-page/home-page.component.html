@@ -16,6 +16,9 @@
                     <div>
                       <h3 class="heading post-category">Task panel</h3>
                       <h1 class="title post-title">Set long term for your taks</h1>
+                     
+                      <app-task-list></app-task-list>
+                    
                       <div class="time-long-button">
                           <button class="button is-link ">5 min</button>
                           <button class="button is-link ">30 min</button>
@@ -24,7 +27,7 @@
                       </div>
                       <button class="button is-link " (click)="sendMessage()">Sen Message</button>
                       <p class="post-excerpt">
-                          Online users: {{numberOfOnlineUsers}}
+                          Online users: {{numberOfUsersOnline}}
                       </p>
                       <br>
                       <a href="#" class="button is-primary">Read More</a>

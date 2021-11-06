@@ -1,0 +1,14 @@
+<div class="sidenav">
+  <span (click)="newDoTask()"> New Task </span>
+  <div *ngFor="let task of tasks | async">
+    <span
+      *ngIf="task.id"
+      (click)="loadTask(task.id)"
+      [class.selected]="task.id === currentTask.id"
+    >
+      {{ task.id }}
+      {{task.usersOnlineInTask}}
+    </span>
+</div>
+</div>
+
