@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
   let previousTaskIdUser;
   numberOfUsersOnline++;
-  io.emit("numberOfOnlineUsers", numberOfUsersOnline);
+  io.emit("numberOfUsersOnline", numberOfUsersOnline);
   io.emit("tasks", tasks);
 
   socket.on("numberOfUsersOnline", function () {
@@ -38,6 +38,7 @@ io.on("connection", (socket) => {
     decrementUserOfTask(previousTaskIdUser);
     io.emit("tasks", tasks);
     numberOfUsersOnline--;
+    io.emit('numberOfUsersOnline', numberOfUsersOnline);
     console.log("user disconnected");
   });
 

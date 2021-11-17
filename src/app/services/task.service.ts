@@ -10,7 +10,7 @@ export class TaskService {
 
   currentTask         = this.socket.fromEvent<Task>('task');
   tasks               = this.socket.fromEvent<Task[]>('tasks');
-  numberOfUsersOnline = this.socket.fromEvent<Number>('numberOfUsersOnline');
+  numberOfUsersOnline = this.socket.fromEvent<number>('numberOfUsersOnline');
 
  
   constructor(private socket: Socket) {

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-// import {io} from 'socket.io-client';
+import {io} from 'socket.io-client';
 // import { ChatService } from "../../services/chat.service";
 import { TaskService } from '../../services/task.service';
 import { Socket } from 'ngx-socket-io';
@@ -24,14 +24,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		// this.numberOfOnlineUsers = 4;
 
-		// this.taskService.numberOfUsersOnline.subscribe(numberOfOnlineUsers => this.numberOfOnlineUsers = numberOfOnlineUsers)
-		this.socket.on(
-			'numberOfUsersOnline',
-			(numberOfUsersOnline: number | undefined) => {
-				this.numberOfUsersOnline = numberOfUsersOnline;
-				console.log('numberOfOnlineUsers : ' + numberOfUsersOnline);
-			}
-		);
+		this.taskService.numberOfUsersOnline
+		.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline )
+		// this.socket.on(
+		// 	'numberOfUsersOnline',
+		// 	(numberOfUsersOnline: number | undefined) => {
+		// 		this.numberOfUsersOnline = numberOfUsersOnline;
+		// 		console.log('numberOfOnlineUsers : ' + numberOfUsersOnline);
+		// 	}
+		// );
 	}
 
 	ngOnDestroy(): void {
