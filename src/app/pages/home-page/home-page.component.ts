@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import {io} from 'socket.io-client';
+import { io } from 'socket.io-client';
 // import { ChatService } from "../../services/chat.service";
 import { TaskService } from '../../services/task.service';
 import { Socket } from 'ngx-socket-io';
 import { Task } from '../../models/task.model';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
 	selector: 'app-home-page',
@@ -18,22 +19,20 @@ export class HomePageComponent implements OnInit, OnDestroy {
 	currentTask: string | undefined;
 	private _taskSub!: Subscription;
 	private _numberUserOnline: Subscription | undefined;
+	longtitude : number | undefined;
+	latitude: number | undefined;
 
-	constructor(private taskService: TaskService, private socket: Socket) {}
+	constructor(private taskService: TaskService, private socket: Socket, private localizationService: LocalizationService) { }
 
 	ngOnInit(): void {
-		// this.numberOfOnlineUsers = 4;
-
 		this.taskService.numberOfUsersOnline
-		.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline )
-		// this.socket.on(
-		// 	'numberOfUsersOnline',
-		// 	(numberOfUsersOnline: number | undefined) => {
-		// 		this.numberOfUsersOnline = numberOfUsersOnline;
-		// 		console.log('numberOfOnlineUsers : ' + numberOfUsersOnline);
-		// 	}
-		// );
+			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)
+		this.localizationService.getLocation();
+		this.localizationService.coordinates.latitude;
+		console.log('localization >');
+		console.log(this.localizationService.getLongtitude());
 	}
+	
 
 	ngOnDestroy(): void {
 		this._taskSub.unsubscribe();
