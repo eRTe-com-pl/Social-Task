@@ -19,20 +19,33 @@ export class HomePageComponent implements OnInit, OnDestroy {
 	currentTask: string | undefined;
 	private _taskSub!: Subscription;
 	private _numberUserOnline: Subscription | undefined;
-	longtitude : number | undefined;
+	longtitude: number | undefined;
 	latitude: number | undefined;
+	coordinate: any | undefined;
 
 	constructor(private taskService: TaskService, private socket: Socket, private localizationService: LocalizationService) { }
 
 	ngOnInit(): void {
 		this.taskService.numberOfUsersOnline
 			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)
-		this.localizationService.getLocation();
-		this.localizationService.coordinates.latitude;
+		// this.coordinate = this.localizationService.getLocation();
+		this.coordinate = this.localizationService.getPosition().then(pos=>{;
+			console.log(`Positon: ${pos.lng} ${pos.lat}`);
+		});
+
+		this.localizationService.getPositionObser().subscribe(
+			pos => this.coordinate = pos
+		)
+		
 		console.log('localization >');
-		console.log(this.localizationService.getLongtitude());
+		console.log(this.coordinate);
 	}
-	
+
+	// getPosition(options?: PositionOptions): Promise<Position> {
+	// 	return new Promise((resolve, reject) => 
+	// 		navigator.geolocation.getCurrentPosition(resolve, reject, options)
+	// 	);
+	// }
 
 	ngOnDestroy(): void {
 		this._taskSub.unsubscribe();
