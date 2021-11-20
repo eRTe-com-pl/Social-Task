@@ -29,14 +29,18 @@ export class HomePageComponent implements OnInit, OnDestroy {
 		this.taskService.numberOfUsersOnline
 			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)
 		// this.coordinate = this.localizationService.getLocation();
-		this.coordinate = this.localizationService.getPosition().then(pos=>{;
+		this.coordinate = this.localizationService.getPosition().then(pos => {
+			;
 			console.log(`Positon: ${pos.lng} ${pos.lat}`);
 		});
 
 		this.localizationService.getPositionObser().subscribe(
-			pos => this.coordinate = pos
+			pos => {
+				this.longtitude = pos.coords.longitude;
+				this.latitude = pos.coords.latitude;
+			}
 		)
-		
+
 		console.log('localization >');
 		console.log(this.coordinate);
 	}

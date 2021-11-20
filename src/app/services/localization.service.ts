@@ -29,12 +29,14 @@ export class LocalizationService {
 	getPositionObser(): Observable<any> {
 		return new Observable(observer => {
 		  window.navigator.geolocation.getCurrentPosition(position => {
-			observer.next(position.coords.latitude);
+			observer.next(position);
 			observer.complete();
 		  },
 			error => observer.error(error));
 		});
 	}
+
+	getGeocoder(latLng : google.maps):
 	// getLocation(): Observable<Position> {
 	// 	return Observable.create((observer: Observer<Position>) => {
 	// 		// Invokes getCurrentPosition method of Geolocation API.
