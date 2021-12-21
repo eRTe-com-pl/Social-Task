@@ -38,7 +38,11 @@
               "./node_modules/bulma/css/bulma.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/d3.min.js",
+              "src/assets/js/polished.js",
+              "src/assets/js/globe.gl.min.js"
+            ]
           },
           "configurations": {
             "production": {

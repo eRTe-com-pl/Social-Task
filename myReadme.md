@@ -1,20 +1,20 @@
 ## Last
-
-- [ ] Podiąć najprzód vulcanos, czili najprostsze z lokalizacją jednostkową z coorynatami, a potem jako druga opcję z geocoding
+- [ ] Przesłać do socketa koordynaty
+- [ ] Odzwierciedlic je na kuli z poziomu socket
 - [ ] podpiąć /var/www/html/eRTe.com.pl/Social-Task/src/assets/tmpGlobe/countries-population.html
   - [ ] Utworzyć 
   - [ ] utworzenie metody w service geocoding
-  - [ ] 
+
+
+- [x] Jak skorzystac ze skrytpu z disc, i sróbwoac azimportowac kulę z https://github.com/vasturiano/three-globe ponieważ globe.gl dostaje błędy
+- [x] Podiąć najprzód vulcanos, czili najprostsze z lokalizacją jednostkową z coorynatami, a potem jako druga opcję z geocoding
 - [x] How get counry from coordinate - https://www.codegrepper.com/code-examples/php/api+to+get+country+from+coordinates
-- [ ] /var/www/html/globe.gl/example/volcanoes/index.html
-- [ ] http://127.0.0.1:5500/example/countries-population/index.html
+- [x] /var/www/html/globe.gl/example/volcanoes/index.html
+- [x] http://127.0.0.1:5500/example/countries-population/index.html
 
 
 [Intemrediate Three.js Tutorial](https://youtu.be/vM8M4QloVL0?t=434)
-
 [Get User location in Angular and mark the user in the map](https://www.youtube.com/watch?v=orjkt0VHt1c&ab_channel=FunOfHeuristic)
-
-
 
 ## geocoding
 - [Get country from coordinates]([https://link](https://www.codegrepper.com/code-examples/php/api+to+get+country+from+coordinates))
@@ -25,15 +25,12 @@
 - [Reverse geocoding]([https://link](https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse#maps_geocoding_reverse-typescript))
 
 ## Todo
-
 - [x] Naprawić Online users
 - [x] Wyświetlić w liscie taski oraz ilość userów online 
 - [x] Dodać metody dla inkrementacji i dekrementacji licznby userów dla poszczególnych tasków
 - [x] Wykonac metody i strukturę według https://www.digitalocean.com/community/tutorials/angular-socket-io
 - [x] analiza server.js oraz tutoriala i przygotowanie serwisów według niego , https://www.digitalocean.com/community/tutorials/angular-socket-io
 - [x] dla 5 min, 30 min 1godziny, jednego dnia
-
-
 
 ## Przerabiam
 ### authenticate with firebase
@@ -56,9 +53,7 @@ https://medium.com/@deguzmanbrianfrancis/setting-up-and-creating-a-chat-app-with
 https://codingblast.com/chat-application-angular-socket-io/
 https://www.ultimateakash.com/blog-details/IixDYGAKYAo=/How-to-Integrate-Socket.IO-with-Angular-2021
 
-
 [Chart socket.io](https://www.youtube.com/watch?v=MCYIQXeoU30) 
-
 
 ## Templates Bulma
 https://cssninjastudio.github.io/krypton/roadmap.html

@@ -36,7 +36,7 @@ export class LocalizationService {
 		});
 	}
 
-	getGeocoder(latLng : google.maps):
+	// getGeocoder(latLng : google.maps):
 	// getLocation(): Observable<Position> {
 	// 	return Observable.create((observer: Observer<Position>) => {
 	// 		// Invokes getCurrentPosition method of Geolocation API.

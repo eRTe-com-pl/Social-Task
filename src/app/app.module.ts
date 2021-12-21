@@ -17,6 +17,7 @@ import { GlobeDemoPageComponent } from './pages/globe-demo-page/globe-demo-page.
 import { TaskListComponent } from './pages/task-list/task-list.component';
 
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+import { VolcanoseComponent } from './pages/globe/volcanose/volcanose.component';
 
 const config: SocketIoConfig = {url: environment.ws_url, options:{}}
 @NgModule({
@@ -27,7 +28,8 @@ const config: SocketIoConfig = {url: environment.ws_url, options:{}}
     SignupPageComponent,
     GlobeComponent,
     GlobeDemoPageComponent,
-    TaskListComponent
+    TaskListComponent,
+    VolcanoseComponent
   ],
   imports: [
     BrowserModule,
