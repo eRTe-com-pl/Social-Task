@@ -13,25 +13,19 @@
                   </div>
                   <div class="column is-6 featured-content va">
                     <div>
-                      <h3 class="heading post-category">Task panel</h3>
-                      <h1 class="title post-title">Set long term for your taks</h1>
+                      <h3 class="heading post-category"></h3>
+                      <h1 class="title post-title">Set your thinks</h1>
                      
-                      <app-task-list></app-task-list>
-                    
-                      <div class="time-long-button">
-                          <button class="button is-link ">5 min</button>
-                          <button class="button is-link ">30 min</button>
-                          <button class="button is-link ">1 h</button>
-                          <button class="button is-link ">1 day</button>
-                      </div>
-                      <button class="button is-link " (click)="sendMessage()">Sen Message</button>
+                      <!--<button class="button is-link " (click)="sendMessage()">Sen Message</button>-->
                       <p class="post-excerpt">
-                          Online users: {{numberOfUsersOnline}}
+                        Online users: {{numberOfUsersOnline}}
                       </p>
-                      <p>longtitude</p>
-                      <p>{{longtitude}}</p>
-                      <p>latitude</p>
-                      <p>{{latitude}}</p>
+                      <span>Latitude: </span>
+                      <span>{{latitude}}</span>
+                      <span> Longtitude: </span>
+                      <span>{{longtitude}}</span>
+                      
+                      <app-task-list></app-task-list>
                       <br>
                       <a href="#" class="button is-primary">Read More</a>
                     </div>
@@ -40,7 +34,6 @@
                 </article>
               </div>
             </div>
-            <hr>
             <!-- <div class="columns is-multiline">
               <div class="column post is-6">
                 <article class="columns is-multiline">

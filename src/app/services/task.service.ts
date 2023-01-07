@@ -17,7 +17,7 @@ export class TaskService {
     // console.log(this.tasks)
    }
 
-  getTask(id: string){
+  sendTask(id: string, latitude: number, longitude: number){
     this.socket.emit('getTask', id);
   }
 

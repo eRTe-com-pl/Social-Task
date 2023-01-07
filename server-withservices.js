@@ -10,14 +10,20 @@ let io = require("socket.io")(http, {
 
 let numberOfUsersOnline = 0;
 const tasks = [
-  { id: "LjSYV", name: "Task 1", usersOnlineInTask: 0 },
-  { id: "zKyaa", name: "Task 2", usersOnlineInTask: 0 },
-  { id: "HfQwQ", name: "Task 3", usersOnlineInTask: 0 },
-  { id: "U7QXu", name: "Task 4", usersOnlineInTask: 0 },
-  { id: "S7YOs", name: "Task 5", usersOnlineInTask: 0 },
-  { id: "l6uID", name: "Task 6", usersOnlineInTask: 0 },
-  { id: "dI8YL", name: "Task 7", usersOnlineInTask: 0 },
+  {
+    id: "LjSYV",
+    name: "Task 1",
+    usersOnlineInTask: 0,
+    cords: { lat: 2, long: 4 },
+  },
+  // { id: "zKyaa", name: "Task 2", usersOnlineInTask: 0 },
+  // { id: "HfQwQ", name: "Task 3", usersOnlineInTask: 0 },
+  // { id: "U7QXu", name: "Task 4", usersOnlineInTask: 0 },
+  // { id: "S7YOs", name: "Task 5", usersOnlineInTask: 0 },
+  // { id: "l6uID", name: "Task 6", usersOnlineInTask: 0 },
+  // { id: "dI8YL", name: "Task 7", usersOnlineInTask: 0 },
 ];
+const cord = { lat: 12, long: 14 };
 
 let taskInSocket = [];
 
@@ -38,7 +44,7 @@ io.on("connection", (socket) => {
     decrementUserOfTask(previousTaskIdUser);
     io.emit("tasks", tasks);
     numberOfUsersOnline--;
-    io.emit('numberOfUsersOnline', numberOfUsersOnline);
+    io.emit("numberOfUsersOnline", numberOfUsersOnline);
     console.log("user disconnected");
   });
 
@@ -89,10 +95,19 @@ io.on("connection", (socket) => {
   socket.on("getTask", (id) => {
     safeJoin(id);
     let task = tasks.find((tsk) => tsk.id === id);
-
+    // TODO
     socket.emit("task", task);
-    io.emit("tasks", tasks);
-    console.log(tasks);
+    // TODO: Przepisac filter
+    let uniqueTasks = tasks.filter((item, i, ar) => {
+      return  i == tasks.findIndex((e)=>{e.id == item.id})
+    });
+
+    console.log("uniqueTasks" + uniqueTasks);
+    io.emit("tasks", uniqueTasks);
+
+    let obj = JSON.stringify(tasks);
+    console.log("tasks: " + obj);
+    console.log("cords: " + tasks[0].cords);
     console.log("tasks[id]: " + task);
     console.log("id: " + id);
   });

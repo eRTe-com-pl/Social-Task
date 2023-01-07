@@ -36,7 +36,7 @@ export class VolcanoseComponent implements OnInit {
         .pointLng('lon')
         .pointAltitude(getAlt)
         .pointRadius(0.12)
-        .pointColor((d: { type: any; }) => catColor(d.type))
+        // .pointColor('#ffffaa')//(d: { type: any; }) => catColor(d.type))
         .pointLabel(getTooltip)
         .labelLat('lat')
         .labelLng('lon')
@@ -52,6 +52,15 @@ export class VolcanoseComponent implements OnInit {
         .height('700')
         .pointsData([
           {
+            "name": "Acatenango",
+            "country": "Guatemala",
+            "type": "Stratovolcano",
+            "lat": 14.5,
+            "lon": -90.88,
+            "elevation": 3976
+          },
+          {
+            "tralla": 12,
             "lat": 50.02,
             "lon": 21.04,
             "elevation": 10958
@@ -68,7 +77,7 @@ export class VolcanoseComponent implements OnInit {
       //     .labelsData(volcanoes);
       //     console.log(volcanoes);
       // });
-      myGlobe.controls().autoRotate = true;
+      myGlobe.controls().autoRotate = false;
       myGlobe.controls().autoRotateSpeed = 0.9;
   }
 

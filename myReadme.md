@@ -1,9 +1,10 @@
 ## Last
-- [ ] Przesłać do socketa koordynaty
+- [ ] Wyświetlic taski jako przyciski
+    - [ ] Jednak zrobimu to jako jeden task narazie?
+- [ ] Przesłać do socketa koordynaty z poziomu listTask
 - [ ] Odzwierciedlic je na kuli z poziomu socket
 - [ ] podpiąć /var/www/html/eRTe.com.pl/Social-Task/src/assets/tmpGlobe/countries-population.html
-  - [ ] Utworzyć 
-  - [ ] utworzenie metody w service geocoding
+- [ ] utworzenie metody w service geocoding
 
 
 - [x] Jak skorzystac ze skrytpu z disc, i sróbwoac azimportowac kulę z https://github.com/vasturiano/three-globe ponieważ globe.gl dostaje błędy

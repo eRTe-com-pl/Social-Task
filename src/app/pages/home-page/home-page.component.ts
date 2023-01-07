@@ -23,7 +23,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 	latitude: number | undefined;
 	coordinate: any | undefined;
 
-	constructor(private taskService: TaskService, private socket: Socket, private localizationService: LocalizationService) { }
+	constructor(private taskService: TaskService, private localizationService: LocalizationService) { }
 
 	ngOnInit(): void {
 		this.taskService.numberOfUsersOnline
