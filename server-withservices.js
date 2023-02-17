@@ -1,6 +1,6 @@
 // import { TaskUser } from "./taskUser";
 let app = require("express");
-const { Interface } = require("readline");
+const {Interface} = require("readline");
 let http = require("http").Server(app);
 let io = require("socket.io")(http, {
   cors: {
@@ -14,7 +14,7 @@ const tasks = [
     id: "LjSYV",
     name: "Task 1",
     usersOnlineInTask: 0,
-    cords: { lat: 2, long: 4 },
+    cords: {lat: 2, long: 4},
   },
   // { id: "zKyaa", name: "Task 2", usersOnlineInTask: 0 },
   // { id: "HfQwQ", name: "Task 3", usersOnlineInTask: 0 },
@@ -23,10 +23,9 @@ const tasks = [
   // { id: "l6uID", name: "Task 6", usersOnlineInTask: 0 },
   // { id: "dI8YL", name: "Task 7", usersOnlineInTask: 0 },
 ];
-const cord = { lat: 12, long: 14 };
+const cord = {lat: 12, long: 14};
 
 let taskInSocket = [];
-
 io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} has connected`);
 
@@ -76,14 +75,14 @@ io.on("connection", (socket) => {
 
   const incrementUserOfTask = (id) => {
     if (taskInSocket.length == 0) {
-      taskInSocket.push({ task: id, socketId: socket.id });
+      taskInSocket.push({task: id, socketId: socket.id});
     }
 
     taskInSocket.find(
       (taskS) => taskS.task === id && taskS.socketId === socket.id
     )
       ? console.log("true")
-      : taskInSocket.push({ task: id, socketId: socket.id });
+      : taskInSocket.push({task: id, socketId: socket.id});
 
     console.log("taskInSocket >");
     console.log(taskInSocket);
@@ -99,7 +98,12 @@ io.on("connection", (socket) => {
     socket.emit("task", task);
     // TODO: Przepisac filter
     let uniqueTasks = tasks.filter((item, i, ar) => {
-      return  i == tasks.findIndex((e)=>{e.id == item.id})
+      return (
+        i ==
+        tasks.findIndex((e) => {
+          e.id == item.id;
+        })
+      );
     });
 
     console.log("uniqueTasks" + uniqueTasks);

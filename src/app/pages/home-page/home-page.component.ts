@@ -13,12 +13,10 @@ import { LocalizationService } from "../../services/localization.service";
 	styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-	// socket: any;
 	numberOfUsersOnline: number | undefined;
-	// tasks: Observable<string[]> | undefined;
 	currentTask: string | undefined;
 	private _taskSub!: Subscription;
-	private _numberUserOnline: Subscription | undefined;
+	// private _numberUserOnline: Subscription | undefined;
 	longtitude: number | undefined;
 	latitude: number | undefined;
 	coordinate: any | undefined;
@@ -29,33 +27,25 @@ export class HomePageComponent implements OnInit, OnDestroy {
 		this.taskService.numberOfUsersOnline
 			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)
 		// this.coordinate = this.localizationService.getLocation();
-		this.coordinate = this.localizationService.getPosition().then(pos => {
-			console.log(`Positon: ${pos.lng} ${pos.lat}`);
-		});
-
-		this.localizationService.getPositionObser().subscribe(
-			pos => {
-				this.longtitude = pos.coords.longitude;
-				this.latitude = pos.coords.latitude;
-			}
-		)
-
-		console.log('localization >');
-		console.log(this.coordinate);
+		// this.coordinate = this.localizationService.getPosition().then(pos => {
+		// 	console.log(`Positon: ${pos.lng} ${pos.lat}`);
+		// });
+		//
+		// this.localizationService.getPositionObser().subscribe(
+		// 	pos => {
+		// 		this.longtitude = pos.coords.longitude;
+		// 		this.latitude = pos.coords.latitude;
+		// 	}
+		// )
+		// console.log('localization >');
+		// console.log(this.coordinate);
 	}
-
-	// getPosition(options?: PositionOptions): Promise<Position> {
-	// 	return new Promise((resolve, reject) => 
-	// 		navigator.geolocation.getCurrentPosition(resolve, reject, options)
-	// 	);
-	// }
 
 	ngOnDestroy(): void {
 		this._taskSub.unsubscribe();
 	}
 
 	sendMessage() {
-		// this.chat.sendMsg("hallo");
 		console.log('sendMessage');
 	}
 }

@@ -12,31 +12,30 @@ export class TaskService {
   tasks               = this.socket.fromEvent<Task[]>('tasks');
   numberOfUsersOnline = this.socket.fromEvent<number>('numberOfUsersOnline');
 
- 
+
   constructor(private socket: Socket) {
-    // console.log(this.tasks)
    }
 
-  sendTask(id: string, latitude: number, longitude: number){
-    this.socket.emit('getTask', id);
-  }
-
-  newTask(){
-    this.socket.emit('addTask', {id: this.taskId(), task: 'asd'});
-  }
-
-  editTask(task: Task) {
-    this.socket.emit('edittask', task);
-  }
-
-  private taskId() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < 5; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
-  }
+  // sendTask(id: string, latitude: number, longitude: number){
+  //   this.socket.emit('getTask', id);
+  // }
+  //
+  // newTask(){
+  //   this.socket.emit('addTask', {id: this.taskId(), task: 'asd'});
+  // }
+  //
+  // editTask(task: Task) {
+  //   this.socket.emit('edittask', task);
+  // }
+  //
+  // private taskId() {
+  //   let text = '';
+  //   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //
+  //   for (let i = 0; i < 5; i++) {
+  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //   }
+  //
+  //   return text;
+  // }
 }

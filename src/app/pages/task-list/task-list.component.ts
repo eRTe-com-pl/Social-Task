@@ -20,15 +20,15 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService, private localizationService: LocalizationService) { }
 
   ngOnInit(): void {
-    this.tasks = this.taskService.tasks;
-    this._taskSub = this.taskService.currentTask.subscribe(tsk => this.currentTask = tsk);
-
-    this.localizationService.getPositionObser().subscribe(
-			pos => {
-				this.latitude = pos.coords.latitude;
-				this.longitude = pos.coords.longitude;
-			}
-		);
+    // this.tasks = this.taskService.tasks;
+    // this._taskSub = this.taskService.currentTask.subscribe(tsk => this.currentTask = tsk);
+	//
+    // this.localizationService.getPositionObser().subscribe(
+	// 		pos => {
+	// 			this.latitude = pos.coords.latitude;
+	// 			this.longitude = pos.coords.longitude;
+	// 		}
+	// 	);
   }
 
   ngOnDestroy(): void {
@@ -36,7 +36,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   sendTask(id: string) {
-    this.taskService.sendTask(id, this.latitude, this.longitude);
+    // this.taskService.sendTask(id, this.latitude, this.longitude);
     console.log('this.latitude ' + this.latitude);
   }
 
