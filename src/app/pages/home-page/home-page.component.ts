@@ -25,24 +25,25 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.taskService.numberOfUsersOnline
-			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)
-		// this.coordinate = this.localizationService.getLocation();
-		// this.coordinate = this.localizationService.getPosition().then(pos => {
-		// 	console.log(`Positon: ${pos.lng} ${pos.lat}`);
-		// });
-		//
-		// this.localizationService.getPositionObser().subscribe(
-		// 	pos => {
-		// 		this.longtitude = pos.coords.longitude;
-		// 		this.latitude = pos.coords.latitude;
-		// 	}
-		// )
-		// console.log('localization >');
-		// console.log(this.coordinate);
+			.subscribe(numberOfUsersOnline => this.numberOfUsersOnline = numberOfUsersOnline)		
 	}
 
 	ngOnDestroy(): void {
 		this._taskSub.unsubscribe();
+	}
+
+	joinTo(): void {
+		console.log("Join")
+		this.coordinate = this.localizationService.getPosition().then(pos => {
+			console.log(`Positon: ${pos.lng} ${pos.lat}`);
+		});
+		
+		this.localizationService.getPositionObser().subscribe(
+			pos => {
+				this.longtitude = pos.coords.longitude;
+				this.latitude = pos.coords.latitude;
+			}
+		)
 	}
 
 	sendMessage() {
