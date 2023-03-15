@@ -91,12 +91,12 @@ io.on("connection", (socket) => {
     });
   };
 
-  socket.on("getTask", (id) => {
+  socket.on("addJoin", (id) => {
+    console.log('trigger getjoin');
     safeJoin(id);
-    let task = tasks.find((tsk) => tsk.id === id);
-    // TODO
+    // let task = tasks.find((tsk) => tsk.id === id);
+    let task = "tasks.find((tsk) => tsk.id === id)";
     socket.emit("task", task);
-    // TODO: Przepisac filter
     let uniqueTasks = tasks.filter((item, i, ar) => {
       return (
         i ==
