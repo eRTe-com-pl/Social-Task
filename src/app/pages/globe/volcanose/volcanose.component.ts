@@ -1,9 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-// import Globe from "globe.gl";
+import * as data from '../../../../assets/data/world_voulcanoes.json';
 
 declare const Globe: any;
 declare const d3: any;
 declare const polished: any;
+
+interface Data {
+  name: string;
+  country: string;
+  type: string;
+  lat: number;
+  lon: number;
+  elevation: number;
+}
+
+
 @Component({
   selector: 'app-volcanose',
   templateUrl: './volcanose.component.html',
@@ -11,7 +22,7 @@ declare const polished: any;
 })
 export class VolcanoseComponent implements OnInit {
 
-  constructor() { }
+  data: Data[] = (data as any).default;
 
   ngOnInit(): void {
     const catColor = d3.scaleOrdinal(d3.schemeCategory10.map((col: any) => polished.transparentize(0.2, col)));
@@ -50,33 +61,7 @@ export class VolcanoseComponent implements OnInit {
         .labelLabel(getTooltip)
         .width('700')
         .height('700')
-        .pointsData([
-          {
-            "name": "Acatenango",
-            "country": "Guatemala",
-            "type": "Stratovolcano",
-            "lat": 14.5,
-            "lon": -90.88,
-            "elevation": 3976
-          },
-          {
-            "tralla": 12,
-            "lat": 50.02,
-            "lon": 21.04,
-            "elevation": 10958
-          },
-          {
-            "lat": 55.86,
-            "lon": 160.6,
-            "elevation": 3081
-          }
-        ]);
-      
-      // fetch('../../../../assets/data/world_voulcanoes.json').then(res => res.json()).then(volcanoes => {
-      //   myGlobe.pointsData(volcanoes)
-      //     .labelsData(volcanoes);
-      //     console.log(volcanoes);
-      // });
+        .pointsData(this.data);
       myGlobe.controls().autoRotate = false;
       myGlobe.controls().autoRotateSpeed = 0.9;
   }

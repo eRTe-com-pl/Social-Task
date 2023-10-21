@@ -1,12 +1,10 @@
 [
   {
-    "lat": 53.59,
-    "lon": 159.15,
-    "elevation": 10958
-  },
-  {
-    "lat": 55.86,
-    "lon": 160.6,
-    "elevation": 3081
+    "name": "Acatenango",
+    "country": "Guatemala",
+    "type": "Stratovolcano",
+    "lat": 14.5,
+    "lon": -90.88,
+    "elevation": 3976
   }
 ]
