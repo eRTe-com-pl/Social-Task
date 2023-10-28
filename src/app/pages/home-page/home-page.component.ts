@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { io } from 'socket.io-client';
-// import { ChatService } from "../../services/chat.service";
 import { TaskService } from '../../services/task.service';
 import { Socket } from 'ngx-socket-io';
 import { Task } from '../../models/task.model';
@@ -44,6 +43,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 				this.latitude = pos.coords.latitude;
 			}
 		)
+		// Add data to global data
+
 	}
 
 	sendMessage() {
