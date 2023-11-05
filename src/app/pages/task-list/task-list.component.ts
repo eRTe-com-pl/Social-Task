@@ -11,8 +11,8 @@ import { Task } from "../../models/task.model";
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-  tasks!: Observable<Task[]> ;
-  currentTask : Task = {id:'', task: '', usersOnlineInTask: undefined} ;
+  tasks!: Observable<Task[]>;
+  currentTask: Task = { id: '', task: '', usersOnlineInTask: undefined };
   private _taskSub!: Subscription;
   latitude!: number;
   longitude!: number;
@@ -22,13 +22,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.tasks = this.taskService.tasks;
     // this._taskSub = this.taskService.currentTask.subscribe(tsk => this.currentTask = tsk);
-	//
+    //
     // this.localizationService.getPositionObser().subscribe(
-	// 		pos => {
-	// 			this.latitude = pos.coords.latitude;
-	// 			this.longitude = pos.coords.longitude;
-	// 		}
-	// 	);
+    // 		pos => {
+    // 			this.latitude = pos.coords.latitude;
+    // 			this.longitude = pos.coords.longitude;
+    // 		}
+    // 	);
   }
 
   ngOnDestroy(): void {
