@@ -22,6 +22,8 @@ interface Data {
 })
 export class VolcanoseComponent implements OnInit {
 
+  // [ ] TODO   https://chat.openai.com/c/b291d93a-b5f0-4ba1-8882-c255bd3ae757
+
   data: Data[] = (data as any).default;
 
   ngOnInit(): void {

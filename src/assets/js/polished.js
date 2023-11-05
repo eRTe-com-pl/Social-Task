@@ -3241,7 +3241,7 @@
     }
 
     var isLightColor = getLuminance(color) > 0.179;
-    var preferredReturnColor = isLightColor ? lightReturnColor : darkReturnColor; // TODO: Make `strict` the default behaviour in the next major release.
+    var preferredReturnColor = isLightColor ? lightReturnColor : darkReturnColor;
     // Without `strict`, this may return a color that does not meet WCAG AA.
 
     if (!strict || getContrast(color, preferredReturnColor) >= 4.5) {
