@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-// import {  } from "";
+import { Data } from "../models/rayOfLight.model";
 
 @Injectable({
   providedIn: 'root'
